@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasika -Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Dark theme (default) - Pure space */
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            transition: var(--transition);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Light theme - Vintage elegant with nature */
+        body.light-mode {
+            background: linear-gradient(135deg, #f7f3e9 0%, #e8dcc6 100%);
+            color: #2d2926;
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        /* Pure black space background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: #000000;
+        }
+
+        body.light-mode .background {
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 140, 74, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 125, 107, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 60% 20%, rgba(85, 107, 47, 0.06) 0%, transparent 70%),
+                linear-gradient(135deg, #f7f3e9 0%, #e8dcc6 100%);
+        }
+
+        /* Enhanced realistic star field */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: realistic-twinkle 4s infinite ease-in-out;
+        }
+
+        .star.bright {
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 16px rgba(255, 255, 255, 0.4);
+        }
+
+        .star.medium {
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+        }
+
+        .star.distant {
+            opacity: 0.3;
+            animation-duration: 6s;
+        }
+
+        .star.constellation {
+            opacity: 0.9;
+            animation-duration: 3s;
+        }
+
+        body.light-mode .star {
+            display: none;
+        }
+
+        @keyframes realistic-twinkle {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            25% { opacity: 1; transform: scale(1.2); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+            75% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* Vintage nature elements for light theme */
+        .nature-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        body.light-mode .nature-elements {
+            opacity: 1;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(ellipse at center, #556b2f 0%, #6b8e23 50%, #8fbc8f 100%);
+            border-radius: 0 100% 0 100%;
+            animation: leaf-float 20s infinite ease-in-out;
+            opacity: 0.3;
+        }
+
+        .leaf:nth-child(2n) {
+            background: radial-gradient(ellipse at center, #6b8e23 0%, #8fbc8f 50%, #9acd32 100%);
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        .leaf:nth-child(3n) {
+            background: radial-gradient(ellipse at center, #8b7d6b 0%, #a0826d 50%, #d2b48c 100%);
+            animation-duration: 30s;
+            animation-delay: -10s;
+        }
+
+        @keyframes leaf-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-30px) rotate(90deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
+            75% { transform: translateY(-40px) rotate(270deg); }
+        }
+
+        .vintage-ornament {
+            position: absolute;
+            font-size: 60px;
+            color: rgba(139, 125, 107, 0.1);
+            font-family: 'Playfair Display', serif;
+            animation: ornament-float 40s infinite linear;
+        }
+
+        @keyframes ornament-float {
+            0% { transform: translateX(-100px) rotate(0deg); }
+            100% { transform: translateX(calc(100vw + 100px)) rotate(360deg); }
+        }
+
+        /* Sophisticated rocket navigation indicator */
+        .rocket {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            z-index: 1000;
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .rocket.active {
+            opacity: 1;
+            animation: rocket-thrust 0.8s ease-out;
+        }
+
+        .rocket-body {
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(180deg, #ffffff 0%, #e5e5e5 100%);
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            transform: translateX(-50%);
+            border-radius: 2px 2px 0 0;
+        }
+
+        .rocket-tip {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 15px solid #ffffff;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        .rocket-flame {
+            width: 8px;
+            height: 12px;
+            background: linear-gradient(180deg, #ff4444 0%, #ffaa00 50%, #ffffff 100%);
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            border-radius: 0 0 4px 4px;
+            animation: flame-flicker 0.1s infinite;
+        }
+
+        body.light-mode .rocket {
+            display: none;
+        }
+
+        @keyframes rocket-thrust {
+            0% { transform: translateY(-50%) translateX(30px); opacity: 0; }
+            100% { transform: translateY(-50%) translateX(0); opacity: 1; }
+        }
+
+        @keyframes flame-flicker {
+            0%, 100% { transform: translateX(-50%) scaleY(1); }
+            50% { transform: translateX(-50%) scaleY(1.2); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 60px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        body.light-mode header {
+            background: rgba(247, 243, 233, 0.9);
+            border-bottom-color: rgba(45, 41, 38, 0.1);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(139, 125, 107, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #ffffff;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        body.light-mode .logo {
+            color: #2d2926;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 16px;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #ffffff;
+            transition: var(--transition);
+        }
+
+        body.light-mode .nav-links a::after {
+            background: #8b7d6b;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: inherit;
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 300;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+        }
+
+        body.light-mode .theme-toggle {
+            border-color: rgba(45, 41, 38, 0.3);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        body.light-mode .theme-toggle:hover {
+            background: rgba(45, 41, 38, 0.1);
+            border-color: rgba(45, 41, 38, 0.6);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 100px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            padding: 120px 60px;
+            text-align: center;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 100;
+            margin-bottom: 30px;
+            color: #ffffff;
+            letter-spacing: 8px;
+            line-height: 1.1;
+        }
+
+        body.light-mode .hero h1 {
+            color: #2d2926;
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            letter-spacing: 4px;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 50px;
+            opacity: 0.8;
+            max-width: 700px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            line-height: 1.6;
+        }
+
+        body.light-mode .hero p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        .cta-button {
+            padding: 18px 50px;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            transition: var(--transition);
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        body.light-mode .cta-button {
+            color: #2d2926;
+            border-color: rgba(45, 41, 38, 0.4);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        body.light-mode .cta-button:hover {
+            background: rgba(45, 41, 38, 0.1);
+            border-color: rgba(45, 41, 38, 0.8);
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 3rem;
+            margin-bottom: 60px;
+            text-align: center;
+            color: #ffffff;
+            font-weight: 100;
+            letter-spacing: 4px;
+        }
+
+        body.light-mode .section h2 {
+            color: #2d2926;
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 40px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+        }
+
+        body.light-mode .project-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(45, 41, 38, 0.1);
+            box-shadow: 0 8px 32px rgba(139, 125, 107, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        body.light-mode .project-card:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(45, 41, 38, 0.2);
+            box-shadow: 0 12px 40px rgba(139, 125, 107, 0.15);
+        }
+
+        .project-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        body.light-mode .project-card h3 {
+            color: #2d2926;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .project-card p {
+            line-height: 1.7;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .skill-item {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        body.light-mode .skill-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(45, 41, 38, 0.1);
+            box-shadow: 0 8px 32px rgba(139, 125, 107, 0.1);
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode .skill-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 12px 40px rgba(139, 125, 107, 0.15);
+        }
+
+        .skill-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        body.light-mode .skill-item h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+                letter-spacing: 4px;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section {
+                padding: 80px 30px;
+            }
+            
+            header {
+                padding: 20px 30px;
+            }
+
+            .rocket {
+                right: 20px;
+            }
+        }
+
+        /* Enhanced nebula effects for deep space feel */
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.08;
+            animation: nebula-drift 120s infinite ease-in-out;
+        }
+
+        .nebula-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #4a90e2, transparent);
+            top: 10%;
+            left: 20%;
+        }
+
+        .nebula-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #9013fe, transparent);
+            top: 60%;
+            right: 10%;
+            animation-delay: -40s;
+        }
+
+        .nebula-3 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #ff6b6b, transparent);
+            top: 40%;
+            left: 60%;
+            animation-delay: -80s;
+        }
+
+        body.light-mode .nebula {
+            display: none;
+        }
+
+        @keyframes nebula-drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -20px) scale(1.1); }
+            50% { transform: translate(-20px, 30px) scale(0.9); }
+            75% { transform: translate(40px, 10px) scale(1.05); }
+        }
+
+        /* Shooting stars */
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: shooting 3s linear infinite;
+            opacity: 0;
+        }
+
+        body.light-mode .shooting-star {
+            display: none;
+        }
+
+        @keyframes shooting {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px) translateY(100px);
+            }
+            10% {
+                opacity: 1;
+                box-shadow: 0 0 0 2px rgba(255,255,255,0.1), 0 0 0 4px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255,0.1);
+            }
+            90% {
+                opacity: 1;
+                box-shadow: 0 0 0 2px rgba(255,255,255,0.1), 0 0 0 4px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255,0.1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(100px) translateY(-100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="stars"></div>
+        <div class="nature-elements"></div>
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="nebula nebula-3"></div>
+    </div>
+
+    <div class="rocket">
+        <div class="rocket-tip"></div>
+        <div class="rocket-body"></div>
+        <div class="rocket-flame"></div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">RASIKA.PORTFOLIO</div>
+            <ul class="nav-links">
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#projects">PROJECTS</a></li>
+                <li><a href="#skills">SKILLS</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleTheme()">🌓THEME</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <h1>RASIKA PHUTANE</h1>
+            <p>Artificial Intelligence Engineer crafting the future through elegant code and intelligent systems</p>
+            <a href="#projects" class="cta-button">EXPLORE WORK</a>
+        </section>
+
+        <section id="about" class="section">
+            <h2>ABOUT</h2>
+            <p style="text-align: center; font-size: 1.3rem; line-height: 1.8; opacity: 0.8; font-weight: 300; letter-spacing: 0.5px; max-width: 800px; margin: 0 auto;">
+                Passionate about pushing the boundaries of artificial intelligence and machine learning. 
+                I specialize in creating sophisticated AI solutions that bridge theoretical research with practical implementation, 
+                focusing on neural networks, computer vision, and natural language processing.
+            </p>
+        </section>
+
+        <section id="projects" class="section">
+            <h2>FEATURED PROJECTS</h2>
+                <div class="projects-grid">
+    
+                    <div class="project-card">
+                        <h3>AI-Powered Business Query Automation Bot</h3>
+                        <p>Designed a chatbot that automates business query handling using NLP and intent recognition. Integrated transformers for semantic search and improved resolution accuracy by 15%.</p>
+                        <a href="https://github.com/rasikaphutane/business_query_resolution_ai_bot" target="_blank">View on GitHub</a>
+                    </div>
+
+                <div class="project-card">
+                    <h3>DevPulse: GitHub Productivity & Mood Analyzer (Chrome Extension)</h3>
+                    <p>Built a Chrome extension that tracks coding activity, sentiment from commit messages, and developer mood trends. Features productivity scoring, weekly summaries, and interactive dashboards.</p>
+                    <a href="https://github.com/rasikaphutane/github_productivity_tracking_chrome_extension" target="_blank">View on GitHub</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Automated Health Report Analysis & Forecasting</h3>
+                    <p>Developed a pipeline for analyzing and forecasting health metrics using LLMs(BERT). Enables medical report insights and future trend prediction and generates personalised diet plans.</p>
+                    <a href="https://github.com/rasikaphutane/Health_data_analysis_and_forecasting" target="_blank">View on GitHub</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>ETL Pipeline</h3>
+                    <p>Implemented a modular ETL pipeline using Python and Apache tools for efficient data ingestion, transformation, and loading. Integrated with GitHub API.</p>
+                    <a href="https://github.com/rasikaphutane/ETLPipe" target="_blank">View on GitHub</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Query Retrieval System using NLP</h3>
+                    <p>Built a semantic search engine using word embeddings and cosine similarity to retrieve context-aware responses to user queries to extract apt tests required for any job application. Optimized for low-latency and high accuracy.</p>
+                    <a href="https://github.com/rasikaphutane/shl_task" target="_blank">View on GitHub</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Hospital Management System</h3>
+                    <p>Developed a full-stack hospital management app with patient record handling, appointment scheduling, and staff admin panel using Python and SQLite backend.</p>
+                    <a href="https://github.com/rasikaphutane/hospital-management" target="_blank">View on GitHub</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Angry Birds Game Clone (OpenCV)</h3>
+                    <p>Recreated the Angry Birds game mechanics using OpenCV and Python, implementing real-time motion tracking, physics simulation, and interactive object launching.</p>
+                    <a href="https://github.com/rasikaphutane/Vision_game" target="_blank">View on GitHub</a>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="skills" class="section">
+            <h2>EXPERTISE</h2>
+            <div class="skills-container">
+                <div class="skill-item">
+                    <h3>Deep Learning</h3>
+                    <p>PyTorch, TensorFlow</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Machine Learning</h3>
+                    <p>Scikit-learn, XGBoost, MLOps, Model Optimization</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Computer Vision</h3>
+                    <p>OpenCV, YOLO, Transformers, Image Processing</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Natural Language Processing</h3>
+                    <p>Hugging Face, BERT, GPT, Text Analytics</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Cloud & DevOps</h3>
+                    <p>AWS, Docker</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Programming Languages</h3>
+                    <p>Python, C++, JAVA</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>COLLABORATION</h2>
+            <p style="text-align: center; font-size: 1.3rem; margin-bottom: 40px; opacity: 0.8; font-weight: 300; letter-spacing: 0.5px; max-width: 600px; margin-left: auto; margin-right: auto; margin-bottom: 40px;">
+                Interested in pushing the boundaries of AI together? Let's discuss how we can create intelligent solutions for complex challenges.
+            </p>
+            <div style="text-align: center;">
+                <a href="rasikaphutane18@gmail.com" class="cta-button">CONNECT</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+        }
+
+        // Enhanced realistic star field
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            
+            // Create main stars
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random();
+                if (size > 0.85) {
+                    star.classList.add('bright');
+                    star.style.width = star.style.height = '3px';
+                } else if (size > 0.7) {
+                    star.classList.add('medium');
+                    star.style.width = star.style.height = '2px';
+                } else if (size > 0.4) {
+                    star.style.width = star.style.height = '1.5px';
+                } else {
+                    star.classList.add('distant');
+                    star.style.width = star.style.height = '1px';
+                }
+                
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 4 + 's';
+                starsContainer.appendChild(star);
+            }
+
+            // Create constellation patterns
+            createConstellation(20, 20, 5); // Top left
+            createConstellation(70, 30, 4); // Top right
+            createConstellation(15, 70, 6); // Bottom left
+            createConstellation(80, 80, 4); // Bottom right
+        }
+
+        function createConstellation(centerX, centerY, numStars) {
+            const starsContainer = document.querySelector('.stars');
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star constellation';
+                star.style.width = star.style.height = '2px';
+                
+                const angle = (Math.PI * 2 * i) / numStars;
+                const radius = 50 + Math.random() * 100;
+                const x = centerX + Math.cos(angle) * radius / 10;
+                const y = centerY + Math.sin(angle) * radius / 10;
+                
+                star.style.left = Math.max(0, Math.min(100, x)) + '%';
+                star.style.top = Math.max(0, Math.min(100, y)) + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create shooting stars
+        function createShootingStar() {
+            if (document.body.classList.contains('light-mode')) return;
+            
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            shootingStar.style.left = Math.random() * 100 + '%';
+            shootingStar.style.top = Math.random() * 50 + '%';
+            document.querySelector('.background').appendChild(shootingStar);
+            
+            setTimeout(() => {
+                if (shootingStar.parentNode) {
+                    shootingStar.parentNode.removeChild(shootingStar);
+                }
+            }, 3000);
+        }
+
+        // Create vintage nature elements for light theme
+        function createNatureElements() {
+            const natureContainer = document.querySelector('.nature-elements');
+            
+            // Create floating leaves
+            for (let i = 0; i < 15; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.top = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 20 + 's';
+                natureContainer.appendChild(leaf); 
+            }
+            // Create vintage ornaments
+            for (let i = 0; i < 5; i++) {
+                const ornament = document.createElement('div');
+                ornament.className = 'vintage-ornament';
+                ornament.innerHTML = '&#10024;'; // Star symbol
+                ornament.style.left = Math.random() * 100 + '%';
+                ornament.style.top = Math.random() * 100 + '%';
+                ornament.style.animationDelay = Math.random() * 40 + 's';
+                natureContainer.appendChild(ornament);
+            }
+        }
+        // Initialize stars and nature elements
+        createStars();
+        createNatureElements();
+        // Create shooting stars at intervals
+        setInterval(createShootingStar, 5000);
+        // Rocket navigation indicator
+        const rocket = document.querySelector('.rocket');
+        document.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                rocket.classList.add('active');
+            } else {
+                rocket.classList.remove('active');
+            }
+        });
+        // Initial rocket state
+        if (window.scrollY > 100) {
+            rocket.classList.add('active');
+        } else {
+            rocket.classList.remove('active');
+        }
+    </script>
+</body>
+</html>
+<!-- End of index.html -->
